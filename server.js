@@ -6,9 +6,12 @@ const cors = require('cors');
 dotenv.config({ path: './config/.env' });
 
 const app = express(); // Initialisation de 'app'
-const port = process.env.PORT || 5003;
 
-app.use(cors()); // Utilisation de CORS
+// --- CORS : autoriser uniquement ton frontend Vercel ---
+app.use(cors({
+    origin: 'https://frottait.vercel.app'
+}));
+
 app.use(express.json()); // Middleware pour parser le corps des requêtes JSON
 
 // Connexion à MongoDB
@@ -30,6 +33,6 @@ connectDb();
 const DeptRoutes = require('./routes/dept');
 app.use('/dept', DeptRoutes);
 
-app.listen(port, () => {
-    console.log(`Departement running on port ${port}`);
+app.listen(process.env.PORT || 5003, () => {
+    console.log(`Departement running on port ${process.env.PORT || 5003}`);
 });
