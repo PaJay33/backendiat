@@ -9,7 +9,7 @@ const app = express(); // Initialisation de 'app'
 
 // --- CORS : autoriser uniquement ton frontend Vercel ---
 app.use(cors({
-    origin: 'https://frottait.vercel.app'
+    origin: ['https://frottait.vercel.app', 'https://adminiatek.vercel.app']
 }));
 
 app.use(express.json()); // Middleware pour parser le corps des requêtes JSON
