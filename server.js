@@ -7,9 +7,14 @@ dotenv.config({ path: './config/.env' });
 
 const app = express(); // Initialisation de 'app'
 
-// --- CORS : autoriser uniquement ton frontend Vercel ---
+// --- CORS : autoriser les frontends Vercel et localhost pour le développement ---
 app.use(cors({
-    origin: ['https://frottait.vercel.app', 'https://adminiatek.vercel.app']
+    origin: [
+        'https://frottait.vercel.app',
+        'https://adminiatek.vercel.app',
+        'http://localhost:3000',
+        'http://localhost:3001'
+    ]
 }));
 
 app.use(express.json()); // Middleware pour parser le corps des requêtes JSON
@@ -17,10 +22,7 @@ app.use(express.json()); // Middleware pour parser le corps des requêtes JSON
 // Connexion à MongoDB
 const connectDb = async () => {
     try {
-        const con = await mongoose.connect(process.env.MONGODB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        const con = await mongoose.connect(process.env.MONGODB_URI);
         console.log(`Connected to MongoDB : ${con.connection.host}`);
     } catch (error) {
         console.log(`MongoDB error : ${error}`);
