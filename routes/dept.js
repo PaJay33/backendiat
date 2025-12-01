@@ -1,15 +1,16 @@
-// routes/appointments.js
+// routes/dept.js
 const express = require('express');
 const router = express.Router();
 const controllers = require('../controllers/dept');
-//const { protect } = require('../middlewares/authMiddleware');
-//const isAdmin = require('../middlewares/isAdmin');
-console.log("Routes loaded"); // Debugging line
-// Créer un nouveau departement
-router.post('/',  controllers.ajouterDept);
-router.get('/departements', controllers.getDepartements);
-router.delete('/:id', controllers.deleteDepartements);
-router.put('/:id', controllers.updateDepartement);
+const { protect } = require('../middlewares/authMiddleware');
+
+console.log("Routes dept loaded"); // Debugging line
+
+// Routes protégées - nécessitent une authentification
+router.post('/', protect, controllers.ajouterDept);
+router.get('/departements', protect, controllers.getDepartements);
+router.delete('/:id', protect, controllers.deleteDepartements);
+router.put('/:id', protect, controllers.updateDepartement);
 
 module.exports = router;
 

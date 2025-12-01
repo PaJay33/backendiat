@@ -37,16 +37,26 @@ app.get('/', (req, res) => {
         message: 'API IATEK - Backend Département',
         status: 'running',
         routes: {
-            departments: '/dept/departements',
-            addDepartment: 'POST /dept/',
-            deleteDepartment: 'DELETE /dept/:id',
-            updateDepartment: 'PUT /dept/:id'
+            auth: {
+                register: 'POST /api/auth/register',
+                login: 'POST /api/auth/login',
+                currentUser: 'GET /api/auth/me (protected)'
+            },
+            departments: {
+                list: 'GET /dept/departements (protected)',
+                add: 'POST /dept/ (protected)',
+                delete: 'DELETE /dept/:id (protected)',
+                update: 'PUT /dept/:id (protected)'
+            }
         }
     });
 });
 
 // Routes
+const AuthRoutes = require('./routes/auth');
 const DeptRoutes = require('./routes/dept');
+
+app.use('/api/auth', AuthRoutes);
 app.use('/dept', DeptRoutes);
 
 // Route pour déboguer les erreurs 404
@@ -68,9 +78,13 @@ app.use('*', (req, res) => {
 app.listen(process.env.PORT || 5003, () => {
     console.log(`Departement running on port ${process.env.PORT || 5003}`);
     console.log('Routes disponibles:');
-    console.log('  - GET  /');
-    console.log('  - GET  /dept/departements');
-    console.log('  - POST /dept/');
-    console.log('  - DELETE /dept/:id');
-    console.log('  - PUT /dept/:id');
+    console.log('  Auth:');
+    console.log('    - POST /api/auth/register');
+    console.log('    - POST /api/auth/login');
+    console.log('    - GET  /api/auth/me (protected)');
+    console.log('  Departments:');
+    console.log('    - GET  /dept/departements (protected)');
+    console.log('    - POST /dept/ (protected)');
+    console.log('    - DELETE /dept/:id (protected)');
+    console.log('    - PUT /dept/:id (protected)');
 });
