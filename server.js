@@ -29,10 +29,46 @@ const connectDb = async () => {
 
 connectDb();
 
+// Route de test pour vérifier que le serveur fonctionne
+app.get('/', (req, res) => {
+    res.json({
+        message: 'API IATEK - Backend Département',
+        status: 'running',
+        routes: {
+            departments: '/dept/departements',
+            addDepartment: 'POST /dept/',
+            deleteDepartment: 'DELETE /dept/:id',
+            updateDepartment: 'PUT /dept/:id'
+        }
+    });
+});
+
 // Routes
 const DeptRoutes = require('./routes/dept');
 app.use('/dept', DeptRoutes);
 
+// Route pour déboguer les erreurs 404
+app.use('*', (req, res) => {
+    console.log('404 - Route non trouvée:', req.originalUrl);
+    res.status(404).json({
+        error: 'Route non trouvée',
+        requestedUrl: req.originalUrl,
+        availableRoutes: [
+            'GET /',
+            'GET /dept/departements',
+            'POST /dept/',
+            'DELETE /dept/:id',
+            'PUT /dept/:id'
+        ]
+    });
+});
+
 app.listen(process.env.PORT || 5003, () => {
     console.log(`Departement running on port ${process.env.PORT || 5003}`);
+    console.log('Routes disponibles:');
+    console.log('  - GET  /');
+    console.log('  - GET  /dept/departements');
+    console.log('  - POST /dept/');
+    console.log('  - DELETE /dept/:id');
+    console.log('  - PUT /dept/:id');
 });
