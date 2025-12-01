@@ -6,8 +6,10 @@ const { protect } = require('../middlewares/authMiddleware');
 
 console.log("Routes dept loaded"); // Debugging line
 
-// Routes protégées - nécessitent une authentification
-router.post('/', protect, controllers.ajouterDept);
+// Route publique - accessible depuis le site vitrine (formulaire de contact)
+router.post('/', controllers.ajouterDept);
+
+// Routes protégées - nécessitent une authentification (admin uniquement)
 router.get('/departements', protect, controllers.getDepartements);
 router.delete('/:id', protect, controllers.deleteDepartements);
 router.put('/:id', protect, controllers.updateDepartement);

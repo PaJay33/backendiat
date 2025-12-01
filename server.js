@@ -43,10 +43,10 @@ app.get('/', (req, res) => {
                 currentUser: 'GET /api/auth/me (protected)'
             },
             departments: {
-                list: 'GET /dept/departements (protected)',
-                add: 'POST /dept/ (protected)',
-                delete: 'DELETE /dept/:id (protected)',
-                update: 'PUT /dept/:id (protected)'
+                add: 'POST /dept/ (public - formulaire de contact)',
+                list: 'GET /dept/departements (protected - admin)',
+                delete: 'DELETE /dept/:id (protected - admin)',
+                update: 'PUT /dept/:id (protected - admin)'
             }
         }
     });
@@ -67,10 +67,13 @@ app.use('*', (req, res) => {
         requestedUrl: req.originalUrl,
         availableRoutes: [
             'GET /',
-            'GET /dept/departements',
-            'POST /dept/',
-            'DELETE /dept/:id',
-            'PUT /dept/:id'
+            'POST /api/auth/register',
+            'POST /api/auth/login',
+            'GET /api/auth/me (protected)',
+            'POST /dept/ (public)',
+            'GET /dept/departements (protected)',
+            'DELETE /dept/:id (protected)',
+            'PUT /dept/:id (protected)'
         ]
     });
 });
@@ -83,8 +86,8 @@ app.listen(process.env.PORT || 5003, () => {
     console.log('    - POST /api/auth/login');
     console.log('    - GET  /api/auth/me (protected)');
     console.log('  Departments:');
-    console.log('    - GET  /dept/departements (protected)');
-    console.log('    - POST /dept/ (protected)');
-    console.log('    - DELETE /dept/:id (protected)');
-    console.log('    - PUT /dept/:id (protected)');
+    console.log('    - POST /dept/ (public - formulaire de contact)');
+    console.log('    - GET  /dept/departements (protected - admin)');
+    console.log('    - DELETE /dept/:id (protected - admin)');
+    console.log('    - PUT /dept/:id (protected - admin)');
 });
